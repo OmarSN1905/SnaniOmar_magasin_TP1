@@ -1,0 +1,85 @@
+/*
+Omar
+Snani
+Groupe 1
+30/09/2026
+ */
+package gestionmagasin;
+
+import java.util.Scanner; // Outil indispensable du cours pour récupérer les entrées clavier
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Magasin magasin = new Magasin();
+        Panier panier = new Panier();
+        
+        // Client fictif pour la simulation
+        Client clientId = new Client(1, "Jacques Dupont", "jacques.dupont@email.com");
+
+        // Remplissage initial des stocks du magasin
+        magasin.ajouterProduit(new Produit(101, "Ordinateur", 899.99, 5));
+        magasin.ajouterProduit(new Produit(102, "Smartphone", 499.50, 12));
+        magasin.ajouterProduit(new Produit(103, "Ecouteurs", 49.99, 30));
+
+        int choix = 0;
+
+        // Boucle d'affichage du menu interactif
+        while (choix != 5) {
+            System.out.println("\n --- Menu Magasin ---");
+            System.out.println(" 1. Afficher les produits disponibles");
+            System.out.println(" 2. Ajouter un produit au panier");
+            System.out.println(" 3. Afficher le panier");
+            System.out.println(" 4. Passer la commande");
+            System.out.println(" 5. Quitter");
+            System.out.print("Votre choix : ");
+            
+            choix = sc.nextInt();
+            sc.nextLine(); // Consomme le retour à la ligne après l'entier
+
+            switch (choix) {
+                case 1:
+                    magasin.afficherProduitsDisponibles();
+                    break;
+                    
+                case 2:
+                    System.out.print("Entrez le nom exact du produit à ajouter : ");
+                    String nomSelection = sc.nextLine();
+                    Produit cible = magasin.trouverProduitParNom(nomSelection);
+                    
+                    if (cible != null) {
+                        panier.ajouterProduit(cible);
+                    } else {
+                        System.out.println("Produit introuvable au catalogue.");
+                    }
+                    break;
+                    
+                case 3:
+                    panier.afficherPanier();
+                    System.out.println("Total : " + panier.calculerTotal() + "€");
+                    break;
+                    
+                case 4:
+                    if (panier.getNbProduits() == 0) {
+                        System.out.println("Action impossible : le panier est vide.");
+                    } else {
+                        Commande cmd = new Commande(9901, clientId, panier);
+                        cmd.afficherDetailsCommande();
+                        panier = new Panier(); // Réinitialise le panier une fois payé
+                    }
+                    break;
+                    
+                case 5:
+                    System.out.println("Fermeture de l'application en cours...");
+                    break;
+                    
+                default:
+                    System.out.println("Option inconnue, veuillez recommencer.");
+                    break;
+            }
+        }
+        
+        sc.close(); // Fermeture propre du scanner
+    }
+}
+

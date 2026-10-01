@@ -1,0 +1,61 @@
+/*
+Omar
+Snani
+Groupe 1
+30/09/2026
+ */
+package gestionmagasin;
+
+public class Panier {
+    // Utilisation d'un tableau à taille fixe (seule structure de liste vue dans votre cours)
+    private Produit[] produits = new Produit[50];
+    private int nbProduits = 0;
+
+    public Produit[] getProduits() { return produits; }
+    public int getNbProduits() { return nbProduits; }
+
+    public void ajouterProduit(Produit produit) {
+        if (nbProduits < produits.length) {
+            produits[nbProduits] = produit;
+            nbProduits++;
+            System.out.println(produit.getNom() + " ajouté au panier.");
+        } else {
+            System.out.println("Erreur : Panier plein.");
+        }
+    }
+
+    public void supprimerProduit(Produit produit) {
+        for (int i = 0; i < nbProduits; i++) {
+            if (produits[i].getId() == produit.getId()) {
+                // Décalage des éléments du tableau vers la gauche pour combler le vide
+                for (int j = i; j < nbProduits - 1; j++) {
+                    produits[j] = produits[j + 1];
+                }
+                produits[nbProduits - 1] = null;
+                nbProduits--;
+                System.out.println(produit.getNom() + " retiré du panier.");
+                return;
+            }
+        }
+        System.out.println("Produit introuvable dans le panier.");
+    }
+
+    public void afficherPanier() {
+        if (nbProduits == 0) {
+            System.out.println("Votre panier est vide.");
+            return;
+        }
+        System.out.println("--- Contenu de votre Panier ---");
+        for (int i = 0; i < nbProduits; i++) {
+            System.out.println("- " + produits[i].getNom() + " : " + produits[i].getPrix() + "€");
+        }
+    }
+
+    public double calculerTotal() {
+        double total = 0;
+        for (int i = 0; i < nbProduits; i++) {
+            total += produits[i].getPrix();
+        }
+        return total;
+    }
+}

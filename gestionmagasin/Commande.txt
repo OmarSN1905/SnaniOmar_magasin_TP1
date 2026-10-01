@@ -1,0 +1,38 @@
+/*
+Omar
+Snani
+Groupe 1
+30/09/2026
+ */
+package gestionmagasin;
+
+public class Commande {
+    private int idCommande;
+    private Client client;
+    private Produit[] produitsCommandes;
+    private double total;
+
+    public Commande(int idCommande, Client client, Panier panier) {
+        this.idCommande = idCommande;
+        this.client = client;
+        this.total = panier.calculerTotal();
+        
+        // Transfert et copie des références du tableau du panier vers la commande
+        this.produitsCommandes = new Produit[panier.getNbProduits()];
+        for (int i = 0; i < panier.getNbProduits(); i++) {
+            this.produitsCommandes[i] = panier.getProduits()[i];
+        }
+    }
+
+    public void afficherDetailsCommande() {
+        System.out.println("\n==================================");
+        System.out.println("FACTURE COMMANDE N° " + idCommande);
+        client.afficherDetails();
+        System.out.println("Articles payés :");
+        for (int i = 0; i < produitsCommandes.length; i++) {
+            System.out.println("  * " + produitsCommandes[i].getNom() + " (" + produitsCommandes[i].getPrix() + "€)");
+        }
+        System.out.println("MONTANT TOTAL DIRECT : " + total + "€");
+        System.out.println("==================================");
+    }
+}

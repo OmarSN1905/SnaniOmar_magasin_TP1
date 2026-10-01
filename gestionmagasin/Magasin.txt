@@ -1,0 +1,36 @@
+/*
+Omar
+Snani
+Groupe 1
+30/09/2026
+ */
+package gestionmagasin;
+
+public class Magasin {
+    private Produit[] produits = new Produit[100];
+    private int nbProduitsDispo = 0;
+
+    public void ajouterProduit(Produit produit) {
+        if (nbProduitsDispo < produits.length) {
+            produits[nbProduitsDispo] = produit;
+            nbProduitsDispo++;
+        }
+    }
+
+    public void afficherProduitsDisponibles() {
+        System.out.println("\n--- Catalogue du Magasin ---");
+        for (int i = 0; i < nbProduitsDispo; i++) {
+            produits[i].afficherDetails();
+        }
+    }
+
+    public Produit trouverProduitParNom(String nom) {
+        for (int i = 0; i < nbProduitsDispo; i++) {
+            // Utilisation exclusive de .equals() comme mentionné dans votre cours sur les String
+            if (produits[i].getNom().equals(nom)) {
+                return produits[i];
+            }
+        }
+        return null; 
+    }
+}
